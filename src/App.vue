@@ -15,8 +15,9 @@ export default {
     name: 'App',
     components: { Header, Footer },
     setup() {
+        // sessionStorage에서 id 값을 가져온 다음
         const id = sessionStorage.getItem('id');
-
+        // id 값이 있다면 store에 commit을 하고 id 값을 넣어준다.
         if (id) {
             store.commit('setAccount', id);
         }

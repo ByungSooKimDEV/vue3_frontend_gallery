@@ -170,6 +170,8 @@ export default {
                 .post('/api/account/login', state.form)
                 .then((res) => {
                     store.commit('setAccount', res.data);
+                    // 새로고침을 하면 로그인이 풀림 -> backend에서 세션 관리하고, client에서 토큰 관리를 할 수 있다.
+                    // 일단은 sessionStorage를 사용하자...
                     sessionStorage.setItem('id', res.data);
                     router.push({ path: '/' });
                     window.alert('로그인하였습니다.');
