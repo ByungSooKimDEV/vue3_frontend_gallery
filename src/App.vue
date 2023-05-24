@@ -7,20 +7,36 @@
 </template>
 
 <script>
+import axios from 'axios';
 import Footer from './components/Footer.vue';
 import Header from './components/Header.vue';
 import store from './scripts/store';
+import { useRoute } from 'vue-router';
+import { watch } from 'vue';
 
 export default {
     name: 'App',
     components: { Header, Footer },
     setup() {
-        // sessionStorage에서 id 값을 가져온 다음
-        const id = sessionStorage.getItem('id');
-        // id 값이 있다면 store에 commit을 하고 id 값을 넣어준다.
-        if (id) {
-            store.commit('setAccount', id);
-        }
+        // // sessionStorage에서 id 값을 가져온 다음
+        // const id = sessionStorage.getItem('id');
+        // // id 값이 있다면 store에 commit을 하고 id 값을 넣어준다.
+        // if (id) {
+        //     store.commit('setAccount', id);
+        // }
+        const check = () => {
+            axios.get('/api/account/check').then(({ data }) => {
+                console.log(data);
+                store.commit('setAccount', data || 0);
+            });
+        };
+
+        const route = useRoute();
+
+        // 경로가 바뀔때마다 token 값 체크하도록한다.
+        watch(route, () => {
+            check();
+        });
     },
 };
 </script>
